@@ -7,7 +7,7 @@ class CategoryView extends StatefulWidget {
   final String url;
   final String name;
 
-  CategoryView({Key? key, required this.url, this.name = ''}) : super(key: key);
+  const CategoryView({Key? key, required this.url, this.name = ''}) : super(key: key);
 
   @override
   _CategoryViewState createState() => _CategoryViewState();

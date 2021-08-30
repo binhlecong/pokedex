@@ -6,7 +6,8 @@ import 'package:pokedex/widgets/poke_detail_info.dart';
 
 class PokemonView extends StatefulWidget {
   final String url;
-  PokemonView({Key? key, required this.url}) : super(key: key);
+  
+  const PokemonView({Key? key, required this.url}) : super(key: key);
 
   @override
   _PokemonViewState createState() => _PokemonViewState();

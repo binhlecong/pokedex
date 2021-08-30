@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:pokedex/api/poke_api.dart';
 import 'package:pokedex/models/named_api_resource.dart';
@@ -19,7 +20,7 @@ class HomeScreen extends StatefulWidget {
   final bool searching;
   static const routeName = '/HomeScreen';
 
-  HomeScreen({
+  const HomeScreen({
     Key? key,
     this.url = 'https://pokeapi.co/api/v2/pokemon/',
     required this.searchType,
@@ -65,7 +66,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void dispose() {
     searchNode.dispose();
-
     super.dispose();
   }
 
@@ -73,9 +73,56 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        drawer: Drawer(
+          child: ListView(
+            children: [
+              DrawerHeader(
+                padding: EdgeInsets.zero,
+                decoration: BoxDecoration(
+                  color: Colors.yellow.shade700,
+                  image: const DecorationImage(
+                    image: AssetImage('assets/images/pokeball.png'),
+                    fit: BoxFit.fitWidth,
+                    alignment: FractionalOffset(0.1, 0.1)
+                  ),
+                ),
+                child: Stack(
+                  children: [
+                    ClipRRect(
+                      child: Opacity(
+                        opacity: 0.5,
+                        child: Container(
+                          color: Colors.yellow.shade700,
+                        ),
+                      ),
+                    ),
+                    Image.asset('assets/images/slogan.png'),
+                  ],
+                ),
+              ),
+              ListTile(
+                leading: const Icon(Icons.star_rounded),
+                title: const Text('Favorite'),
+                onTap: () {
+                  // Update the state of the app.
+                  // ...
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.settings_rounded),
+                title: const Text('Setting'),
+                onTap: () {
+                  // Update the state of the app.
+                  // ...
+                },
+              ),
+            ],
+          ),
+        ),
         body: CustomScrollView(
           slivers: [
             _buildAppBar(context),
+            const SliverToBoxAdapter(child: SizedBox(height: 10)),
             _buildBody(context),
           ],
         ),
@@ -114,16 +161,9 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           );
         }
-        return SliverToBoxAdapter(
-          child: Container(
-            decoration: BoxDecoration(
-              color: Theme.of(context).brightness == Brightness.light
-                  ? Colors.white
-                  : Colors.black,
-            ),
-            child: const Center(
-              child: CircularProgressIndicator(),
-            ),
+        return const SliverToBoxAdapter(
+          child: Center(
+            child: CircularProgressIndicator(),
           ),
         );
       },
@@ -136,57 +176,18 @@ class _HomeScreenState extends State<HomeScreen> {
       builder: (context, snapshot) {
         if (snapshot.hasData &&
             snapshot.connectionState == ConnectionState.done) {
-          return SizedBox(
+          return Container(
+            decoration: BoxDecoration(color: Theme.of(context).primaryColor),
             height: 40,
             child: Row(
               children: [
-                Expanded(
-                  child: IconButton(
-                    iconSize: 40,
-                    padding: const EdgeInsets.all(0),
-                    icon: const Icon(Icons.navigate_before),
-                    color: snapshot.data!.previous == 'null'
-                        ? Colors.grey.shade300
-                        : Colors.black54,
-                    onPressed: () {
-                      if (snapshot.data!.previous != 'null') {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => HomeScreen(
-                              url: snapshot.data!.previous,
-                              searchType: SearchTypes.byName(),
-                              searching: false,
-                            ),
-                          ),
-                        );
-                      }
-                    },
-                  ),
+                _buildBottomNavButton(
+                  snapshot.data!.previous,
+                  Icons.navigate_before_rounded,
                 ),
-                Expanded(
-                  child: IconButton(
-                    iconSize: 40,
-                    padding: const EdgeInsets.all(0),
-                    icon: const Icon(Icons.navigate_next),
-                    color: snapshot.data!.next == 'null'
-                        ? Colors.grey.shade300
-                        : Colors.black54,
-                    onPressed: () {
-                      if (snapshot.data!.next != 'null') {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => HomeScreen(
-                              url: snapshot.data!.next,
-                              searchType: SearchTypes.byName(),
-                              searching: false,
-                            ),
-                          ),
-                        );
-                      }
-                    },
-                  ),
+                _buildBottomNavButton(
+                  snapshot.data!.next,
+                  Icons.navigate_next_rounded,
                 ),
               ],
             ),
@@ -205,8 +206,6 @@ class _HomeScreenState extends State<HomeScreen> {
   SliverAppBar _buildAppBar(BuildContext context) {
     return SliverAppBar(
       pinned: true,
-      // snap: true,
-      // floating: true,
       expandedHeight: 200,
       flexibleSpace: OverflowBox(
         maxHeight: 200,
@@ -282,9 +281,36 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  Widget _buildBottomNavButton(String nextUrl, IconData icon) {
+    return Expanded(
+      child: IconButton(
+        iconSize: 40,
+        padding: const EdgeInsets.all(0),
+        icon: Icon(icon),
+        color: nextUrl != 'null'
+            ? Theme.of(context).highlightColor
+            : Theme.of(context).disabledColor,
+        onPressed: () {
+          if (nextUrl != 'null') {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => HomeScreen(
+                  url: nextUrl,
+                  searchType: SearchTypes.byName(),
+                  searching: false,
+                ),
+              ),
+            );
+          }
+        },
+      ),
+    );
+  }
+
   Padding _buildPokemonTile(NamedAPIResource e) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(15, 30, 10, 0),
+      padding: const EdgeInsets.all(15),
       child: Container(
         decoration: const BoxDecoration(
           color: Color(0x25000000),
@@ -294,13 +320,13 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         child: GestureDetector(
           onTap: () {
-            inspect(e.url, e.name);
+            _inspect(e.url, e.name);
           },
           child: Column(
             children: [
               Expanded(
                 child: FutureBuilder<String>(
-                  future: getImageURL(e.url),
+                  future: _getImageURL(e.url),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       return Image.network(
@@ -333,7 +359,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  void inspect(String url, String name) {
+  void _inspect(String url, String name) {
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -354,9 +380,10 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Future<String> getImageURL(String url) async {
+  Future<String> _getImageURL(String url) async {
     try {
       List<String> l;
+
       switch (widget.searchType) {
         case 'name':
           l = url.split('/');
@@ -380,6 +407,7 @@ class _HomeScreenState extends State<HomeScreen> {
           l.removeWhere((element) => element == '');
           break;
       }
+
       return 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${l.last}.png';
     } catch (e) {
       throw Exception('Error while fetching thumbnail');
@@ -398,6 +426,7 @@ class _HomeScreenState extends State<HomeScreen> {
       var res = NamedAPIResource(name: name, url: newurl);
       var batch = PokemonBatch(
           count: 1, next: 'null', previous: 'null', results: [res]);
+
       return batch;
     } catch (e) {
       throw "This pokemon doesn't exist";
@@ -416,6 +445,7 @@ class _HomeScreenState extends State<HomeScreen> {
       var res = NamedAPIResource(name: name, url: newurl);
       var batch = PokemonBatch(
           count: 1, next: 'null', previous: 'null', results: [res]);
+
       return batch;
     } catch (e) {
       throw "This pokemon doesn't exist";
@@ -434,6 +464,7 @@ class _HomeScreenState extends State<HomeScreen> {
       var res = NamedAPIResource(name: name, url: newurl);
       var batch = PokemonBatch(
           count: 1, next: 'null', previous: 'null', results: [res]);
+
       return batch;
     } catch (e) {
       throw "This pokemon doesn't exist";

@@ -7,7 +7,7 @@ class TypeView extends StatefulWidget {
   final String url;
   final String name;
 
-  TypeView({Key? key, required this.url, this.name = ''}) : super(key: key);
+  const TypeView({Key? key, required this.url, this.name = ''}) : super(key: key);
 
   @override
   _TypeViewState createState() => _TypeViewState();

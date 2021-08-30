@@ -3,25 +3,36 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ThemeChanger with ChangeNotifier {
-  late int _themeColor;
   late bool _isDark;
   late SharedPreferences _prefs;
 
+  final darkTheme = ThemeData(
+    primarySwatch: Colors.grey,
+    primaryColor: const Color(0xffa30000),
+    disabledColor: Colors.redAccent,
+    highlightColor: const Color(0xffff7700),
+    brightness: Brightness.dark,
+    backgroundColor: const Color(0xffefd28d),
+    dividerColor: Colors.black54,
+  );
+
+  final lightTheme = ThemeData(
+    primarySwatch: Colors.red,
+    primaryColor: const Color(0xfffa003f),
+    disabledColor: Colors.redAccent,
+    highlightColor: const Color(0xffffcf00),
+    brightness: Brightness.light,
+    backgroundColor: const Color(0xfffeefe5),
+    dividerColor: Colors.white54,
+  );
+
   ThemeChanger() {
-    _themeColor = 0;
     _isDark = false;
     _loadFromPrefs();
   }
 
-  get getThemeIndex => _themeColor * 2 + (_isDark ? 1 : 0);
   get getDarkMode => _isDark;
-
-  setTheme(int themeColor) async {
-    _themeColor = themeColor;
-    _prefs = await SharedPreferences.getInstance();
-    _prefs.setInt('color', _themeColor);
-    notifyListeners();
-  }
+  get getTheme => _isDark ? darkTheme : lightTheme;
 
   toggleMode() async {
     _isDark = !_isDark;
@@ -32,7 +43,6 @@ class ThemeChanger with ChangeNotifier {
 
   _loadFromPrefs() async {
     _prefs = await SharedPreferences.getInstance();
-    _themeColor = _prefs.getInt('color') ?? 0;
     _isDark = _prefs.getBool('brightness') ?? false;
     notifyListeners();
   }

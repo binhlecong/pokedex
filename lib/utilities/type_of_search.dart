@@ -9,7 +9,7 @@ class SearchTypes {
       ['name', 'color', 'habitat', 'shape', 'type'];
 }
 
-Map<String, String> searchUrls = {
+const Map<String, String> searchUrls = {
   'name': 'https://pokeapi.co/api/v2/pokemon/',
   'color': 'https://pokeapi.co/api/v2/pokemon-color/',
   'habitat': 'https://pokeapi.co/api/v2/pokemon-habitat/',
@@ -18,7 +18,7 @@ Map<String, String> searchUrls = {
 };
 
 
-Map<String, String> hintTexts = {
+const Map<String, String> hintTexts = {
   'name': 'pikachu',
   'color': 'yellow',
   'habitat': 'forest',

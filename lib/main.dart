@@ -15,8 +15,9 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (_) => ThemeChanger(),
       child: Consumer<ThemeChanger>(
-        builder: (context, ThemeChanger notifier, child) {
+        builder: (context, notifier, child) {
           return MaterialApp(
+            theme: notifier.getTheme,
             title: 'Pokedex',
             debugShowCheckedModeBanner: false,
             home: HomeScreen(
