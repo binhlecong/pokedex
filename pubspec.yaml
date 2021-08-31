@@ -40,6 +40,9 @@ dependencies:
   font_awesome_flutter: ^9.1.0
   http: ^0.13.3
   carousel_slider: ^4.0.0
+  sqflite: ^2.0.0+3
+  path_provider: ^2.0.2
+
 
 dev_dependencies:
   flutter_test:

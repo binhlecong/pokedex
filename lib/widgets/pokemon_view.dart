@@ -1,12 +1,14 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:pokedex/api/poke_api.dart';
+import 'package:pokedex/database/db_models.dart';
+import 'package:pokedex/database/favorite_pokemon_db.dart';
 import 'package:pokedex/models/pokemon.dart';
 import 'package:pokedex/widgets/poke_detail_info.dart';
 
 class PokemonView extends StatefulWidget {
   final String url;
-  
+
   const PokemonView({Key? key, required this.url}) : super(key: key);
 
   @override
@@ -34,6 +36,14 @@ class _PokemonViewState extends State<PokemonView> {
                 snapshot.data!.name.toUpperCase(),
                 style: const TextStyle(fontWeight: FontWeight.bold),
               ),
+              actions: [
+                IconButton(
+                  onPressed: () {
+                    _addToFavorite(snapshot.data!.id, snapshot.data!.name);
+                  },
+                  icon: const Icon(Icons.star),
+                )
+              ],
             ),
             body: Column(
               children: [
@@ -82,5 +92,9 @@ class _PokemonViewState extends State<PokemonView> {
         );
       },
     );
+  }
+
+  void _addToFavorite(int id, String name) {
+    FavoritePokemonDB.db.newPokemon(FavoritePokemon(id: id, name: name));
   }
 }

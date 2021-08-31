@@ -7,6 +7,8 @@ import 'package:pokedex/models/pokemon.dart';
 import 'package:pokedex/models/pokemon_batch.dart';
 import 'package:pokedex/models/pokemon_categories.dart';
 import 'package:pokedex/models/pokemon_type.dart';
+import 'package:pokedex/screens/favoritescreen.dart';
+import 'package:pokedex/screens/settingscreen.dart';
 import 'package:pokedex/utilities/cap_ext.dart';
 import 'package:pokedex/utilities/type_of_search.dart';
 import 'package:pokedex/widgets/category_view.dart';
@@ -73,52 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        drawer: Drawer(
-          child: ListView(
-            children: [
-              DrawerHeader(
-                padding: EdgeInsets.zero,
-                decoration: BoxDecoration(
-                  color: Colors.yellow.shade700,
-                  image: const DecorationImage(
-                    image: AssetImage('assets/images/pokeball.png'),
-                    fit: BoxFit.fitWidth,
-                    alignment: FractionalOffset(0.1, 0.1)
-                  ),
-                ),
-                child: Stack(
-                  children: [
-                    ClipRRect(
-                      child: Opacity(
-                        opacity: 0.5,
-                        child: Container(
-                          color: Colors.yellow.shade700,
-                        ),
-                      ),
-                    ),
-                    Image.asset('assets/images/slogan.png'),
-                  ],
-                ),
-              ),
-              ListTile(
-                leading: const Icon(Icons.star_rounded),
-                title: const Text('Favorite'),
-                onTap: () {
-                  // Update the state of the app.
-                  // ...
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.settings_rounded),
-                title: const Text('Setting'),
-                onTap: () {
-                  // Update the state of the app.
-                  // ...
-                },
-              ),
-            ],
-          ),
-        ),
+        drawer: _buildDrawer(),
         body: CustomScrollView(
           slivers: [
             _buildAppBar(context),
@@ -127,6 +84,70 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
         bottomNavigationBar: _buildBottomNavBar(context),
+      ),
+    );
+  }
+
+  Drawer _buildDrawer() {
+    return Drawer(
+      child: ListView(
+        children: [
+          DrawerHeader(
+            padding: EdgeInsets.zero,
+            decoration: BoxDecoration(
+              color: Colors.yellow.shade700,
+              image: const DecorationImage(
+                  image: AssetImage('assets/images/pokeball.png'),
+                  fit: BoxFit.fitWidth,
+                  alignment: FractionalOffset(0.1, 0.1)),
+            ),
+            child: Stack(
+              children: [
+                ClipRRect(
+                  child: Opacity(
+                    opacity: 0.5,
+                    child: Container(
+                      color: Colors.yellow.shade700,
+                    ),
+                  ),
+                ),
+                Positioned(
+                  left: 20,
+                  bottom: 20,
+                  child: Image.asset(
+                    'assets/images/slogan.png',
+                    width: 200,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Container(
+            child: const Text("A comprehensive Pokemon dictionary"),
+            alignment: Alignment.center,
+            
+          ),
+          ListTile(
+            leading: const Icon(Icons.star_rounded),
+            title: const Text('Favorite'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const FavoriteScreen()),
+              );
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.settings_rounded),
+            title: const Text('Setting'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const SettingScreen()),
+              );
+            },
+          ),
+        ],
       ),
     );
   }
@@ -216,8 +237,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
-      centerTitle: true,
-      title: const Text("A comprehensive dictionary"),
+      title: const Text("PokeDex"),
       actions: [
         IconButton(
           onPressed: () {

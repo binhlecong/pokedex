@@ -41,6 +41,20 @@ class ThemeChanger with ChangeNotifier {
     notifyListeners();
   }
 
+  setModeLight() async {
+    _isDark = false;
+    _prefs = await SharedPreferences.getInstance();
+    _prefs.setBool('brightness', _isDark);
+    notifyListeners();
+  }
+
+  setModeDark() async {
+    _isDark = true;
+    _prefs = await SharedPreferences.getInstance();
+    _prefs.setBool('brightness', _isDark);
+    notifyListeners();
+  }
+
   _loadFromPrefs() async {
     _prefs = await SharedPreferences.getInstance();
     _isDark = _prefs.getBool('brightness') ?? false;
