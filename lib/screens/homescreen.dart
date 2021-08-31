@@ -388,7 +388,7 @@ class _HomeScreenState extends State<HomeScreen> {
       padding: const EdgeInsets.all(15),
       child: Container(
         decoration: const BoxDecoration(
-          color: Color(0x25000000),
+          color: Color(0x50505050),
           borderRadius: BorderRadius.all(
             Radius.circular(20),
           ),
@@ -421,9 +421,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 padding: const EdgeInsets.only(bottom: 10),
                 child: Text(
                   e.name.toUpperCase(),
-                  style: const TextStyle(
-                    color: Colors.black54,
-                    fontWeight: FontWeight.bold,
+                  style: TextStyle(
+                    color: Theme.of(context).secondaryHeaderColor,
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
               )
