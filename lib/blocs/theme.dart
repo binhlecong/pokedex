@@ -12,7 +12,7 @@ class ThemeChanger with ChangeNotifier {
     disabledColor: Colors.redAccent,
     highlightColor: const Color(0xffff7700),
     brightness: Brightness.dark,
-    backgroundColor: const Color(0xffefd28d),
+    hintColor: const Color(0xffefd28d),
     dividerColor: Colors.black54,
   );
 
@@ -22,7 +22,7 @@ class ThemeChanger with ChangeNotifier {
     disabledColor: Colors.redAccent,
     highlightColor: const Color(0xffffcf00),
     brightness: Brightness.light,
-    backgroundColor: const Color(0xfffeefe5),
+    hintColor: const Color(0xfffeefe5),
     dividerColor: Colors.white54,
   );
 

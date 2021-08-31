@@ -16,31 +16,39 @@ class DetailLine extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(children: [
-      SizedBox(
-        height: 40,
-        width: labelWidth,
-        child: Align(
-          alignment: Alignment.centerLeft,
-          child: Text(
-            prop,
-            style: const TextStyle(
-              color: Color(0x75000000),
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
+    return Row(
+      children: [
+        SizedBox(
+          height: 40,
+          width: labelWidth,
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              prop,
+              style: TextStyle(
+                color: Theme.of(context).hintColor,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
         ),
-      ),
-      Text(
-        value,
-        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
-      ),
-      const SizedBox(width: 5),
-      Text(
-        unit,
-        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
-      ),
-    ]);
+        Text(
+          value,
+          style: const TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        const SizedBox(width: 5),
+        Text(
+          unit,
+          style: const TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+      ],
+    );
   }
 }

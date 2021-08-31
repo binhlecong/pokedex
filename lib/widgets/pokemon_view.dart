@@ -57,9 +57,9 @@ class _PokemonViewState extends State<PokemonView> {
                           checker.checkFavorite(id);
 
                           if (checker.isFavorite) {
-                            return Icon(Icons.star, color: Colors.amber);
+                            return const Icon(Icons.star, color: Colors.amber);
                           } else {
-                            return Icon(Icons.star_outline_rounded);
+                            return const Icon(Icons.star_outline_rounded);
                           }
                         },
                       ),

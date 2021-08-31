@@ -27,13 +27,12 @@ class _PokeDetailInfoState extends State<PokeDetailInfo>
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(color: Color(0xfff5f5f5)),
       height: 200,
       child: Column(
         children: [
           TabBar(
             unselectedLabelColor: const Color(0x55000000),
-            labelColor: Colors.black,
+            labelColor: Theme.of(context).hintColor,
             controller: _tabController,
             indicatorSize: TabBarIndicatorSize.tab,
             tabs: const [
@@ -64,7 +63,9 @@ class _PokeDetailInfoState extends State<PokeDetailInfo>
                   pokeStat: widget.myPoke.stats,
                   pokeAbility: widget.myPoke.abilities,
                 ),
-                PokeMoves(pokeMove: widget.myPoke.moves),
+                PokeMoves(
+                  pokeMove: widget.myPoke.moves,
+                ),
               ],
             ),
           ),
