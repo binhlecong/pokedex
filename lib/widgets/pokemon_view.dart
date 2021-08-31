@@ -1,10 +1,12 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:pokedex/api/poke_api.dart';
+import 'package:pokedex/blocs/check_favorite.dart';
 import 'package:pokedex/database/db_models.dart';
 import 'package:pokedex/database/favorite_pokemon_db.dart';
 import 'package:pokedex/models/pokemon.dart';
 import 'package:pokedex/widgets/poke_detail_info.dart';
+import 'package:provider/provider.dart';
 
 class PokemonView extends StatefulWidget {
   final String url;
@@ -30,19 +32,40 @@ class _PokemonViewState extends State<PokemonView> {
       future: pokemon,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
+          int id = snapshot.data!.id;
+          String name = snapshot.data!.name;
+
           return Scaffold(
             appBar: AppBar(
               title: Text(
-                snapshot.data!.name.toUpperCase(),
+                name.toUpperCase(),
                 style: const TextStyle(fontWeight: FontWeight.bold),
               ),
               actions: [
-                IconButton(
-                  onPressed: () {
-                    _addToFavorite(snapshot.data!.id, snapshot.data!.name);
+                Consumer<FavoriteChecker>(
+                  builder: (context, checker, _) {
+                    return IconButton(
+                      onPressed: () {
+                        if (checker.isFavorite) {
+                          _deleteFromFavorite(id);
+                        } else {
+                          _addToFavorite(id, name);
+                        }
+                      },
+                      icon: Builder(
+                        builder: (context) {
+                          checker.checkFavorite(id);
+
+                          if (checker.isFavorite) {
+                            return Icon(Icons.star, color: Colors.amber);
+                          } else {
+                            return Icon(Icons.star_outline_rounded);
+                          }
+                        },
+                      ),
+                    );
                   },
-                  icon: const Icon(Icons.star),
-                )
+                ),
               ],
             ),
             body: Column(
@@ -96,5 +119,9 @@ class _PokemonViewState extends State<PokemonView> {
 
   void _addToFavorite(int id, String name) {
     FavoritePokemonDB.db.newPokemon(FavoritePokemon(id: id, name: name));
+  }
+
+  void _deleteFromFavorite(int id) {
+    FavoritePokemonDB.db.deleteFavoritePokemon(id);
   }
 }
