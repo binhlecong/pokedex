@@ -28,6 +28,8 @@ class _PokemonViewState extends State<PokemonView> {
 
   @override
   Widget build(BuildContext context) {
+    bool hasChecked = false;
+
     return FutureBuilder<Pokemon>(
       future: pokemon,
       builder: (context, snapshot) {
@@ -47,14 +49,17 @@ class _PokemonViewState extends State<PokemonView> {
                     return IconButton(
                       onPressed: () {
                         if (checker.isFavorite) {
-                          _deleteFromFavorite(id);
+                          checker.deleteFromFavorite(id);
                         } else {
-                          _addToFavorite(id, name);
+                          checker.addToFavorite(id, name);
                         }
                       },
                       icon: Builder(
                         builder: (context) {
-                          checker.checkFavorite(id);
+                          if (!hasChecked) {
+                            checker.checkFavorite(id);
+                            hasChecked = true;
+                          }
 
                           if (checker.isFavorite) {
                             return const Icon(Icons.star, color: Colors.amber);
@@ -117,11 +122,5 @@ class _PokemonViewState extends State<PokemonView> {
     );
   }
 
-  void _addToFavorite(int id, String name) {
-    FavoritePokemonDB.db.newPokemon(FavoritePokemon(id: id, name: name));
-  }
-
-  void _deleteFromFavorite(int id) {
-    FavoritePokemonDB.db.deleteFavoritePokemon(id);
-  }
+  
 }
