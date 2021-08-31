@@ -125,7 +125,6 @@ class _HomeScreenState extends State<HomeScreen> {
           Container(
             child: const Text("A comprehensive Pokemon dictionary"),
             alignment: Alignment.center,
-            
           ),
           ListTile(
             leading: const Icon(Icons.star_rounded),
@@ -240,15 +239,26 @@ class _HomeScreenState extends State<HomeScreen> {
       title: const Text("PokeDex"),
       actions: [
         IconButton(
-          onPressed: () {
-            setState(() {
-              isSearchOpen = !isSearchOpen;
-              Future.delayed(const Duration(milliseconds: 500), () {
-                if (isSearchOpen) searchNode.requestFocus();
-              });
-            });
+          onPressed: () async {
+            String? query = await _asyncInputDialog(context);
+            if (query == null || query.isEmpty) {
+              // show snackbar
+              return;
+            }
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => PokemonView(
+                  url: searchUrls['name']! + query,
+                ),
+              ),
+            );
           },
-          icon: const Icon(Icons.search),
+          icon: const Icon(Icons.search_rounded),
+        ),
+        IconButton(
+          onPressed: () {},
+          icon: const Icon(Icons.now_widgets_rounded),
         )
       ],
       bottom: PreferredSize(
@@ -298,6 +308,51 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  Future _asyncInputDialog(BuildContext context) async {
+    String text = '';
+
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(32.0),
+            ),
+          ),
+          title: const Center(child: Text('Find your pokemon')),
+          content: Expanded(
+            child: TextField(
+              autofocus: true,
+              onChanged: (value) {
+                text = value;
+              },
+              style: const TextStyle(fontSize: 16),
+              cursorHeight: 20,
+              decoration: const InputDecoration(
+                hintText: 'e.g. "pikachu", "1"',
+              ),
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(text);
+              },
+              child: Text(
+                'GO',
+                style: TextStyle(
+                  fontSize: 20,
+                  color: Theme.of(context).highlightColor,
+                ),
+              ),
+            )
+          ],
+        );
+      },
     );
   }
 

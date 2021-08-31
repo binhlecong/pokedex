@@ -12,8 +12,9 @@ class ThemeChanger with ChangeNotifier {
     disabledColor: Colors.redAccent,
     highlightColor: const Color(0xffff7700),
     brightness: Brightness.dark,
-    hintColor: const Color(0xffefd28d),
+    secondaryHeaderColor: const Color(0xffefd28d),
     dividerColor: Colors.black54,
+    cardColor: Colors.red.shade700
   );
 
   final lightTheme = ThemeData(
@@ -22,8 +23,9 @@ class ThemeChanger with ChangeNotifier {
     disabledColor: Colors.redAccent,
     highlightColor: const Color(0xffffcf00),
     brightness: Brightness.light,
-    hintColor: const Color(0xfffeefe5),
+    secondaryHeaderColor: const Color(0xff011627),
     dividerColor: Colors.white54,
+    cardColor: Colors.red.shade400
   );
 
   ThemeChanger() {

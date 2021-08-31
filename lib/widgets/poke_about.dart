@@ -26,12 +26,6 @@ class PokeAbout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var buttonColor = MaterialStateProperty.resolveWith<Color>(
-      (Set<MaterialState> states) {
-        return Theme.of(context).secondaryHeaderColor;
-      },
-    );
-
     return Container(
       padding: const EdgeInsets.only(left: 30, right: 30, top: 15),
       child: ListView(
@@ -64,13 +58,10 @@ class PokeAbout extends StatelessWidget {
             child: Wrap(
               spacing: 10,
               children: types
-                  .map(
-                    (e) => SeeMoreButton(
-                      buttonColor: buttonColor,
-                      label: e.pokemon.name.inCaps,
-                      openThisURL: () {},
-                    ),
-                  )
+                  .map((e) => SeeMoreButton(
+                        label: e.pokemon.name.inCaps,
+                        openThisURL: () {},
+                      ))
                   .toList(),
             ),
           ),
@@ -81,13 +72,10 @@ class PokeAbout extends StatelessWidget {
               spacing: 10,
               children: heldItems.isNotEmpty
                   ? heldItems
-                      .map(
-                        (e) => SeeMoreButton(
-                          buttonColor: buttonColor,
-                          label: e.item.name.inCaps,
-                          openThisURL: () {},
-                        ),
-                      )
+                      .map((e) => SeeMoreButton(
+                            label: e.item.name.inCaps,
+                            openThisURL: () {},
+                          ))
                       .toList()
                   : [
                       RichText(

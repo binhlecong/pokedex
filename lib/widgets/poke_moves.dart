@@ -9,11 +9,6 @@ class PokeMoves extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var buttonColor = MaterialStateProperty.resolveWith<Color>(
-      (Set<MaterialState> states) {
-        return Theme.of(context).secondaryHeaderColor;
-      },
-    );
 
     return Container(
       padding: const EdgeInsets.only(left: 20, right: 20),
@@ -23,7 +18,6 @@ class PokeMoves extends StatelessWidget {
             children: pokeMove
                 .map((e) => SeeMoreButton(
                       label: e.move.name,
-                      buttonColor: buttonColor,
                       openThisURL: () {},
                     ))
                 .toList()),

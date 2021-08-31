@@ -2,8 +2,6 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:pokedex/api/poke_api.dart';
 import 'package:pokedex/blocs/check_favorite.dart';
-import 'package:pokedex/database/db_models.dart';
-import 'package:pokedex/database/favorite_pokemon_db.dart';
 import 'package:pokedex/models/pokemon.dart';
 import 'package:pokedex/widgets/poke_detail_info.dart';
 import 'package:provider/provider.dart';
@@ -91,10 +89,7 @@ class _PokemonViewState extends State<PokemonView> {
                     ),
                     items: snapshot.data!.sprite.toList().map((e) {
                       return Builder(builder: (BuildContext context) {
-                        return Image.network(
-                          e,
-                          fit: BoxFit.fill,
-                        );
+                        return Image.network(e, fit: BoxFit.fill);
                       });
                     }).toList(),
                   ),
@@ -121,6 +116,4 @@ class _PokemonViewState extends State<PokemonView> {
       },
     );
   }
-
-  
 }

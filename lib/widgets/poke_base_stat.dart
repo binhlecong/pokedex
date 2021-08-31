@@ -17,12 +17,6 @@ class PokeBaseStat extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var buttonColor = MaterialStateProperty.resolveWith<Color>(
-      (Set<MaterialState> states) {
-        return Theme.of(context).secondaryHeaderColor;
-      },
-    );
-
     return Container(
       padding: const EdgeInsets.only(left: 30, right: 30, top: 15),
       child: ListView(
@@ -44,7 +38,6 @@ class PokeBaseStat extends StatelessWidget {
               children: pokeAbility
                   .map(
                     (e) => SeeMoreButton(
-                      buttonColor: buttonColor,
                       label: e.ability.name.inCaps,
                       openThisURL: () {},
                     ),
