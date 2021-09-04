@@ -36,8 +36,9 @@ This project is one of my fisrt project with flutter. I use the PokeAPI to creat
   </p>
 
 ## Future upgrade
-- Clean code
-- UI enhancement (search bar, color theme)
-- Animations
-- More settings
-- "Who's that pokemon" mode
+- [ ] Clean code
+- [ ] UI enhancement (search bar, color theme)
+- [ ] Animations
+- [ ] More settings
+- [ ] "Who's that pokemon" mode
+- [ ] Localization (language setting)

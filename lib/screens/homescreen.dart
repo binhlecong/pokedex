@@ -97,9 +97,10 @@ class _HomeScreenState extends State<HomeScreen> {
             decoration: BoxDecoration(
               color: Colors.yellow.shade700,
               image: const DecorationImage(
-                  image: AssetImage('assets/images/pokeball.png'),
-                  fit: BoxFit.fitWidth,
-                  alignment: FractionalOffset(0.1, 0.1)),
+                image: AssetImage('assets/images/pokeball.png'),
+                fit: BoxFit.fitWidth,
+                alignment: FractionalOffset(0.1, 0.1),
+              ),
             ),
             child: Stack(
               children: [
