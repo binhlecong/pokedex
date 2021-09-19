@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-// TODO theme need redo
 class ThemeChanger with ChangeNotifier {
   late bool _isDark;
   late SharedPreferences _prefs;
