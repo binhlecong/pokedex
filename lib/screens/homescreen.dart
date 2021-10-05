@@ -213,7 +213,9 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
           );
-        } else if (snapshot.hasError) return const SizedBox(height: 1);
+        } else if (snapshot.hasError) {
+          return const SizedBox(height: 1);
+        }
         return Row(
           children: const [
             Expanded(child: Icon(Icons.more_horiz)),

@@ -26,7 +26,7 @@ class _PokeDetailInfoState extends State<PokeDetailInfo>
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 200,
       child: Column(
         children: [
